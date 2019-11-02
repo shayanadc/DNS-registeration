@@ -15,11 +15,10 @@ class DomainStateUpdateTest extends TestCase
      * @test
      */
     public function it_updates_domain_state_to_approved(){
-        $domain = factory(Domain::class)->create(['name' => 'example.com']);
+        $domain = factory(Domain::class)->create(['name' => 'example.com', 'user_id' => 1]);
         $domain = Domain::find($domain->id);
         $this->assertFalse($domain->approved);
         $domain->toApproved();
-//        $domain->fresh();
         $this->assertTrue($domain->approved);
     }
 }

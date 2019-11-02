@@ -10,8 +10,7 @@ Feature: Register New User Account
   @6
   Scenario: Register A New Account
 
-    Given a user
-    And fake user token with "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk"
+    Given fake user token with "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk"
     When open "/v1/users" form
     And fill the form with:
       """

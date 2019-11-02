@@ -42,12 +42,12 @@ Feature: Register New Domain
     And receive JSON response:
       """
         [{
-          "id":1,"name":"example.com",
+          "id":1,"name":"example.com","approved" : false,
           "records":
             [{"id":1,"domain_id":"1","content":"hash"}]
          },
           {
-          "id":2,"name":"example2.com",
+          "id":2,"name":"example2.com", "approved" : false,
           "records":
             [
             {"id":2,"domain_id":"2","content":"text1"},

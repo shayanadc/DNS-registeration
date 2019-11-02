@@ -22,7 +22,7 @@ Feature: Register New DNS Record
     Then receive ok
     And receive JSON response:
       """
-      {
-       "content": "hash"
-      }
+        {
+         "content": "hash"
+        }
       """

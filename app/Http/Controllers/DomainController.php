@@ -14,7 +14,7 @@ class DomainController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user()->domains()->with('records')->where('user_id', $request->user()->id)->get();
+        return $request->user()->domains()->with('records')->where('user_id', $request->user()->id)->has('records')->get();
     }
 
     /**

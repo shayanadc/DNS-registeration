@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Token;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -49,7 +50,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::create(['email' => $request->input('email'), 'password' => Hash::make($request->input('password'))]);
+        $user = User::create([
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'api_token' => Token::generate()
+        ]);
         return response()->json($user, 200);
 
     }

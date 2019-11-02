@@ -4,17 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Token;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function getAuthenticatedUser(){
+        $user = Auth::user();
+        if ($user) {
+            $userData = $user->with('domains')->first();
+            return response()->json($userData->toArray(),200);
+        }
+    }
     public function login(Request $request)
     {
         $user = User::where('email', $request->input('email'))->first();
         if ($user) {
             if (Hash::check($request->input('password'), $user->password)) {
-                return response()->json(['token' => 'QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk']);
+                return response()->json(['token' => 'QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk'],200);
             }
         }
         return response()->json([

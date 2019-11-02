@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Domain extends Model
 {
+    protected $hidden = ["created_at", "updated_at"];
+
+
     protected $fillable = ['name'];
 
     public function createNewDomain($array)

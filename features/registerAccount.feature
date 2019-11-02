@@ -7,7 +7,7 @@ Feature: Register New User Account
   I allowed to login as a member
 
 
-  @7
+  @6
   Scenario: Register A New Account
 
     Given a user
@@ -16,7 +16,7 @@ Feature: Register New User Account
       """
        {
         "email" : "example@email.com",
-        "password: "password"
+        "password": "password"
       }
         """
     And submit the form
@@ -24,6 +24,7 @@ Feature: Register New User Account
     And receive JSON response:
         """
         {
+          "id" : 1,
           "email" : "example@email.com"
         }
         """

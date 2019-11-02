@@ -37,12 +37,13 @@ class DomainController extends Controller
     {
         try {
             $domainObj = new Domain();
-            $reqArr = $request->toArray();
+            $reqArr = $request->except(['approved']);
             $reqArr['user_id'] = $request->user()->id;
             $domain = $domainObj->createNewDomain($reqArr);
-            return response()->json(['name' => $domain->name, 'user_id' => $domain->user_id], 200);
+            //Todo: how to return all without reload
+            $domain = Domain::find($domain->id);
+            return response()->json(['name' => $domain->name, 'user_id' => $domain->user_id, 'approved' => $domain->approved], 200);
         } catch (\Exception $e) {
-            dd($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
         }
 

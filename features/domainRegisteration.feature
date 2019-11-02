@@ -22,7 +22,37 @@ Feature: Register New Domain
     Then receive ok
     And receive JSON response:
       """
-      {
-       "name": "example.com"
-      }
+        {
+         "name": "example.com"
+        }
+      """
+
+  @3
+  Scenario: Get All Domain
+
+    Given a user
+    And a domain with name "example.com"
+    And a record with content "hash"
+    And a domain with name "example2.com"
+    And a record with content "text1"
+    And a record with content "text2"
+    When open "/v1/domains" form
+    And submit the page
+    Then receive ok
+    And receive JSON response:
+      """
+        [{
+          "id":1,"name":"example.com",
+          "records":
+            [{"id":1,"domain_id":"1","content":"hash"}]
+         },
+          {
+          "id":2,"name":"example2.com",
+          "records":
+            [
+            {"id":2,"domain_id":"2","content":"text1"},
+            {"id":3,"domain_id":"2","content":"text2"}
+            ]
+         }
+         ]
       """

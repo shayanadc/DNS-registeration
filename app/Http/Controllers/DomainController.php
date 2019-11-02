@@ -14,7 +14,7 @@ class DomainController extends Controller
      */
     public function index()
     {
-        //
+        return Domain::with('records')->get();
     }
 
     /**

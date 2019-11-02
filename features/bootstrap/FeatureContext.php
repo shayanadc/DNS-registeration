@@ -14,6 +14,8 @@ class FeatureContext extends \Tests\TestCase implements Context
     protected $response;
     protected $route;
     protected $header = [];
+    protected $domain;
+    protected $record;
     use \Illuminate\Foundation\Testing\DatabaseMigrations;
     /**
      * Initializes context.
@@ -89,8 +91,26 @@ class FeatureContext extends \Tests\TestCase implements Context
      */
     public function aDomainWithName($arg1)
     {
-        factory(\App\Domain::class)->create([
+        $this->domain = factory(\App\Domain::class)->create([
             'name' => $arg1
+        ]);
+    }
+
+    /**
+     * @When submit the page
+     */
+    public function submitThePage()
+    {
+        $this->response = $this->getJson($this->route);
+    }
+    /**
+     * @Given a record with content :arg1
+     */
+    public function aRecordWithContent($arg1)
+    {
+        $this->record = factory(\App\RecordType::class)->create([
+            'domain_id' => $this->domain->id,
+            'content' => $arg1
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRegisterRequest;
 use App\Token;
 use App\User;
 use Auth;
@@ -56,7 +57,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRegisterRequest $request)
     {
         $user = User::create([
             'email' => $request->input('email'),

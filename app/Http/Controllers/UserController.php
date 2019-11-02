@@ -8,6 +8,19 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function login(Request $request)
+    {
+        $user = User::where('email', $request->input('email'))->first();
+        if ($user) {
+            if (Hash::check($request->input('password'), $user->password)) {
+                return response()->json(['token' => 'QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk']);
+            }
+        }
+        return response()->json([
+                'title' => 'Email or password is incorrect'
+        ], 400);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -16,6 +16,7 @@ class FeatureContext extends \Tests\TestCase implements Context
     protected $header = [];
     protected $domain;
     protected $record;
+    protected $email;
     use \Illuminate\Foundation\Testing\DatabaseMigrations;
     /**
      * Initializes context.
@@ -111,6 +112,27 @@ class FeatureContext extends \Tests\TestCase implements Context
         $this->record = factory(\App\RecordType::class)->create([
             'domain_id' => $this->domain->id,
             'content' => $arg1
+        ]);
+    }
+
+    /**
+     * @Given fake user token with :arg1
+     */
+    public function fakeUserTokenWith($arg1)
+    {
+        \App\Token::setTest($arg1);
+    }
+
+    /**
+     * @Given user :email with password :password has already registered
+     */
+    public function userWithPasswordHasAlreadyRegistered($email, $password)
+    {
+        $this->email = $email;
+        factory(\App\User::class)->create([
+            'email' => $email,
+            'password' => \Illuminate\Support\Facades\Hash::make($password),
+            'api_token' => \App\Token::generate()
         ]);
     }
 }

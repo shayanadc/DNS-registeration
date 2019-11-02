@@ -9,8 +9,8 @@ Feature: Register New DNS Record
 
   @2
   Scenario: Register A New Record Type
-
-    Given a user
+    Given user "azar@example.com" with password "valid_password" has already registered
+    And authenticate "azar@example.com"
     And a domain with name "example.com"
     When open "/v1/records" form
     And fill the form with:
@@ -28,4 +28,24 @@ Feature: Register New DNS Record
          "domain_id" : 1,
          "content": "hash"
         }
+      """
+
+  @21
+  Scenario: Does not Allow To Domains
+    Given user "babak@example.com" with password "valid_password" has already registered
+    When open "/v1/records" form
+    And fill the form with:
+      """
+        {
+          "domain_id": 1,
+          "content" : "hash"
+        }
+      """
+    And submit the form
+    Then receive not ok
+    And receive JSON response:
+      """
+         {
+            "message": "Unauthorized"
+         }
       """

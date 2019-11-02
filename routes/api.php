@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login', 'UserController@login');
 Route::resource('/users', 'UserController');
-Route::resource('/domains', 'DomainController');
-Route::resource('/records', 'RecordTypeController');
+Route::middleware('auth:api')->resource('/domains', 'DomainController');
+Route::middleware('auth:api')->resource('/records', 'RecordTypeController');

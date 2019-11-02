@@ -9,8 +9,11 @@ class Domain extends Model
 
     protected $hidden = ["created_at", "updated_at"];
 
-    protected $casts = ['approved' => 'boolean'];
-    protected $fillable = ['name', 'approved'];
+    protected $casts = [
+        'approved' => 'boolean',
+        'user_id' => 'integer'
+    ];
+    protected $fillable = ['name', 'approved','user_id'];
 
     public function createNewDomain($array)
     {

@@ -17,6 +17,7 @@ class FeatureContext extends \Tests\TestCase implements Context
     protected $domain;
     protected $record;
     protected $email;
+    protected $user;
     use \Illuminate\Foundation\Testing\DatabaseMigrations;
     /**
      * Initializes context.
@@ -39,11 +40,13 @@ class FeatureContext extends \Tests\TestCase implements Context
     }
 
     /**
-     * @Given a user
+     * @Given authenticate :arg1
      */
-    public function aUser()
+    public function authenticate($arg1)
     {
-//        throw new PendingException();
+        $user = \App\User::where('email',$arg1)->first();
+        $this->actingAs($user,'api');
+        $this->withMiddleware();
     }
 
     /**
@@ -79,6 +82,13 @@ class FeatureContext extends \Tests\TestCase implements Context
     }
 
     /**
+     * @Then receive not ok
+     */
+    public function receiveNotOk()
+    {
+        $this->response->assertStatus(400);
+    }
+    /**
      * @Then receive JSON response:
      */
     public function receiveJsonResponse(PyStringNode $string)
@@ -93,7 +103,8 @@ class FeatureContext extends \Tests\TestCase implements Context
     public function aDomainWithName($arg1)
     {
         $this->domain = factory(\App\Domain::class)->create([
-            'name' => $arg1
+            'name' => $arg1,
+            'user_id' => $this->user->id
         ]);
     }
 
@@ -129,7 +140,7 @@ class FeatureContext extends \Tests\TestCase implements Context
     public function userWithPasswordHasAlreadyRegistered($email, $password)
     {
         $this->email = $email;
-        factory(\App\User::class)->create([
+        $this->user = factory(\App\User::class)->create([
             'email' => $email,
             'password' => \Illuminate\Support\Facades\Hash::make($password),
             'api_token' => \App\Token::generate()

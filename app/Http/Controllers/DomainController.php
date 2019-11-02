@@ -12,9 +12,9 @@ class DomainController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Domain::with('records')->get();
+        return $request->user()->domains()->with('records')->where('user_id', $request->user()->id)->get();
     }
 
     /**
@@ -37,9 +37,12 @@ class DomainController extends Controller
     {
         try {
             $domainObj = new Domain();
-            $domain = $domainObj->createNewDomain($request->toArray());
-            return response()->json(['name' => $domain->name], 200);
+            $reqArr = $request->toArray();
+            $reqArr['user_id'] = $request->user()->id;
+            $domain = $domainObj->createNewDomain($reqArr);
+            return response()->json(['name' => $domain->name, 'user_id' => $domain->user_id], 200);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 400);
         }
 

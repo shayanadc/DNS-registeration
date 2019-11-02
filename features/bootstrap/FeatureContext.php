@@ -18,5 +18,14 @@ class FeatureContext implements Context
      */
     public function __construct()
     {
+        putenv("APP_ENV=testing");
+        putenv("BCRYPT_ROUNDS=4");
+        putenv("CACHE_DRIVER=array");
+        putenv("DB_CONNECTION=sqlite_testing");
+        putenv("DB_DATABASE=:memory:");
+        putenv("MAIL_DRIVER=array");
+        putenv("QUEUE_CONNECTION=sync");
+        putenv("SESSION_DRIVER=array");
+        parent::setUp();
     }
 }

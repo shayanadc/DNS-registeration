@@ -16,7 +16,8 @@ Feature: Register New Domain
     And fill the form with:
       """
         {
-         "name" : "example.com"
+         "name" : "example.com",
+         "approved" : true
         }
       """
     And submit the form
@@ -25,7 +26,8 @@ Feature: Register New Domain
       """
         {
          "name": "example.com",
-         "user_id" : 1
+         "user_id" : 1,
+         "approved" : false
         }
       """
 

@@ -16,6 +16,7 @@ Feature: Get All Domains
     And a domain with name "example2.com"
     And a record with content "text1"
     And a record with content "text2"
+    And a domain with name "example3.com"
     When open "/v1/domains" form
     And submit the page
     Then receive ok

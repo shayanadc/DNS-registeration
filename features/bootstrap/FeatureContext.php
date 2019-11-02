@@ -83,4 +83,14 @@ class FeatureContext extends \Tests\TestCase implements Context
         $jsonResp = $string->getRaw();
         $this->assertJsonStringEqualsJsonString($jsonResp, $this->response->getContent());
     }
+
+    /**
+     * @Given a domain with name :arg1
+     */
+    public function aDomainWithName($arg1)
+    {
+        factory(\App\Domain::class)->create([
+            'name' => $arg1
+        ]);
+    }
 }

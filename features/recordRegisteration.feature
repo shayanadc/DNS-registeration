@@ -11,11 +11,13 @@ Feature: Register New DNS Record
   Scenario: Register A New Record Type
 
     Given a user
+    And a domain with name "example.com"
     When open "/v1/records" form
     And fill the form with:
       """
         {
-         "content" : "hash"
+          "domain_id": 1,
+          "content" : "hash"
         }
       """
     And submit the form
@@ -23,6 +25,7 @@ Feature: Register New DNS Record
     And receive JSON response:
       """
         {
+         "domain_id" : 1,
          "content": "hash"
         }
       """

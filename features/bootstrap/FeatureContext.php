@@ -14,6 +14,7 @@ class FeatureContext extends \Tests\TestCase implements Context
     protected $response;
     protected $route;
     protected $header = [];
+    use \Illuminate\Foundation\Testing\DatabaseMigrations;
     /**
      * Initializes context.
      *

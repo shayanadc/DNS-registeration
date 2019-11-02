@@ -15,8 +15,13 @@ class CreateRecordTypesTable extends Migration
     {
         Schema::create('record_types', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('domain_id');
             $table->string('content');
             $table->timestamps();
+
+            $table->foreign('domain_id')
+                ->references('id')->on('domains')
+                ->onDelete('cascade');
         });
     }
 

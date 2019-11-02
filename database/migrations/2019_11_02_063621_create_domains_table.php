@@ -15,7 +15,7 @@ class CreateDomainsTable extends Migration
     {
         Schema::create('domains', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name')->index();
             $table->integer('user_id');
             $table->boolean('approved')->default(false);
             $table->timestamps();

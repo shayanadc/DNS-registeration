@@ -16,7 +16,7 @@ class CreateRecordTypesTable extends Migration
         Schema::create('record_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('domain_id');
-            $table->string('content');
+            $table->string('content')->index();
             $table->timestamps();
 
             $table->foreign('domain_id')

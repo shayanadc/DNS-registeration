@@ -11,6 +11,7 @@ Feature: Register New User Account
   Scenario: Register A New Account
 
     Given a user
+    And fake user token with "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk"
     When open "/v1/users" form
     And fill the form with:
       """
@@ -25,6 +26,7 @@ Feature: Register New User Account
         """
         {
           "id" : 1,
-          "email" : "example@email.com"
+          "email" : "example@email.com",
+          "api_token": "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk"
         }
         """

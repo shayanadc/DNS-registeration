@@ -42,7 +42,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary mb-2">save +</button>
 
-                        <div class="alert alert-dismissible fade offset-1 alert-dom" role="alert">
+                        <div class="alert alert-dismissible fade offset-1" role="alert">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -85,19 +85,9 @@
                     <th scope="col">Approved</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
+                <tbody id="tbody-rec">
+
+
                 </tbody>
             </table>
         </div>
@@ -139,6 +129,7 @@
             }).fail(function (data) {
                 window.location.href = '/'
             });
+
             $.ajax({
                 url: 'http://127.0.0.1:8000/v1/domains',
                 type: 'GET',
@@ -155,6 +146,28 @@
                     text: item.name
                 }));
             });
+            });
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/v1/records',
+                type: 'GET',
+                contentType: "application/json",
+                headers: {
+                    "Access-Control-Allow-Origin": "*",
+                    "Authorization" : 'Bearer ' + $.cookie("api_token"),
+                    "Accept" : "application/json"
+                }
+            }).done(function (data) {
+                $.each(data, function (index, item) {
+                $('#tbody-rec').append(`
+                    <tr>
+                    <th scope="row">${index}</th>
+                        <td>${item.domain.name}</td>
+                        <td>${item.content}</td>
+                        <td>${item.domain.approved}</td>
+                   </tr>
+                        `)
+                });
             });
         } else {
             window.location.href = '/'
@@ -207,15 +220,14 @@
                 "Authorization" : 'Bearer ' + $.cookie("api_token"),
                 "Accept" : "application/json"
             }
-        }).done(function (data) {
-            console.log(data)
-            $( ".alert-dom" ).addClass( "alert-success" );
-            $( ".alert-dom" ).addClass( "show" );
-            $(".alert-dom").append("<strong> Congratulations!! </strong> You Domain Is Registered");
+        }).done(function () {
+            $( ".alert" ).addClass( "alert-success" );
+            $( ".alert" ).addClass( "show" );
+            $(".alert").append("<strong> Congratulations!! </strong> You Domain Is Registered");
         }).fail(function (data) {
-            $( ".alert-dom" ).addClass( "alert-warning" );
-            $( ".alert-dom" ).addClass( "show" );
-            $(".alert-dom").append("<strong> Attention!! </strong>" + data.responseJSON.errors[0].title);
+            $( ".alert" ).addClass( "alert-warning" );
+            $( ".alert" ).addClass( "show" );
+            $(".alert").append("<strong> Attention!! </strong>" + data.responseJSON.errors[0].title);
         });
     });
 

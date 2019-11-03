@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Domain;
 use App\Http\Requests\UserRegisterRequest;
 use App\Token;
 use App\User;
@@ -14,8 +15,11 @@ class UserController extends Controller
     public function getAuthenticatedUser(){
         $user = Auth::user();
         if ($user) {
-            $userData = $user->with('domains')->first();
-            return response()->json($userData->toArray(),200);
+            $recordDomainIdsForUser = $user->records()->get()->pluck('domain_id');
+            $user = $user->with(['domains' => function ($query) use ($recordDomainIdsForUser){
+                $query->where('id', $recordDomainIdsForUser);
+            }])->first();
+            return response()->json($user->toArray(),200);
         }
     }
     public function login(Request $request)

@@ -16,9 +16,13 @@ class UserController extends Controller
         $user = Auth::user();
         if ($user) {
             $recordDomainIdsForUser = $user->records()->get()->pluck('domain_id');
-            $user = $user->with(['domains' => function ($query) use ($recordDomainIdsForUser){
-                $query->where('id', $recordDomainIdsForUser);
-            }])->first();
+            if(empty($recordDomainIdsForUser->toArray())){
+                $user = $user->with('domains')->first();
+            }else{
+                $user = $user->with(['domains' => function ($query) use ($recordDomainIdsForUser){
+                    $query->where('id', $recordDomainIdsForUser);
+                }])->first();
+            }
             return response()->json($user->toArray(),200);
         }
     }
@@ -27,7 +31,7 @@ class UserController extends Controller
         $user = User::where('email', $request->input('email'))->first();
         if ($user) {
             if (Hash::check($request->input('password'), $user->password)) {
-                return response()->json(['token' => 'QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk'],200);
+                return response()->json(['api_token' => $user->api_token],200);
             }
         }
         return response()->json([

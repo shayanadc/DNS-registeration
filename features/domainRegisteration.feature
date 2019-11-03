@@ -46,6 +46,6 @@ Feature: Register New Domain
     And receive JSON response:
       """
          {
-           "message": "Unauthorized"
+            "errors": [{"title": "Unauthorized"} ]
          }
       """

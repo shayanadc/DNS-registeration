@@ -46,7 +46,9 @@ Feature: Get All Domains
     Then receive not ok
     And receive JSON response:
       """
-         {
-                "message": "Unauthorized"
-        }
+        {
+          "errors": [
+                {"title": "Unauthorized" }
+              ]
+            }
       """

@@ -86,8 +86,16 @@ class RecordTypeController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        try{
+            RecordType::find($id)->domain()->where('user_id', $request->user()->id)->firstOrFail();
+            RecordType::destroy($id);
+            $record = RecordType::find($id);
+            if($record) throw new \Exception('not delete');
+            return response()->json(['message' => 'deleted'], 200);
+        }catch (\Exception $exception){
+            return response()->json(['message' => 'not deleted'], 400);
+        }
     }
 }

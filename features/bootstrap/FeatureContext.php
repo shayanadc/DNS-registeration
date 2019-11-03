@@ -72,6 +72,13 @@ class FeatureContext extends \Tests\TestCase implements Context
     {
         $this->response = $this->postJson($this->route, $this->request, $this->header);
     }
+    /**
+     * @When delete the form
+     */
+    public function deleteTheForm()
+    {
+        $this->response = $this->deleteJson($this->route);
+    }
 
     /**
      * @Then receive ok

@@ -22,7 +22,7 @@
         </div>
     </form>
     <div class="collapse navbar-collapse float-md-right" id="navbarSupportedContent">
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" id="logout">
             <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
         </form>
     </div>
@@ -41,6 +41,12 @@
                             <input type="text" class="form-control" id="domain-name" placeholder="domain name">
                         </div>
                         <button type="submit" class="btn btn-primary mb-2">save +</button>
+
+                        <div class="alert alert-dismissible fade offset-1 alert-dom" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -66,6 +72,7 @@
                             <input required type="text" class="form-control" id="record-content" placeholder="content">
                         </div>
                         <button type="submit" class="btn btn-primary mb-2">save +</button>
+
                     </form>
                 </div>
             </div>
@@ -132,7 +139,6 @@
             }).fail(function (data) {
                 window.location.href = '/'
             });
-
             $.ajax({
                 url: 'http://127.0.0.1:8000/v1/domains',
                 type: 'GET',
@@ -155,6 +161,9 @@
         }
     });
 
+    $("#logout").submit(function (event) {
+        $.removeCookie("api_token");
+    });
     $("#txt-record-target").submit(function (event) {
         event.preventDefault();
         var record_content = $("#record-content").val();
@@ -176,7 +185,8 @@
             }
         }).done(function (data) {
             console.log(data)
-        });
+        }).fail(function (data) {
+    });
     });
 
 
@@ -198,8 +208,20 @@
                 "Accept" : "application/json"
             }
         }).done(function (data) {
+            console.log(data)
+            $( ".alert-dom" ).addClass( "alert-success" );
+            $( ".alert-dom" ).addClass( "show" );
+            $(".alert-dom").append("<strong> Congratulations!! </strong> You Domain Is Registered");
+        }).fail(function (data) {
+            $( ".alert-dom" ).addClass( "alert-warning" );
+            $( ".alert-dom" ).addClass( "show" );
+            $(".alert-dom").append("<strong> Attention!! </strong>" + data.responseJSON.errors[0].title);
         });
     });
+
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');}, 3000
+    );
 </script>
 </body>
 </html>

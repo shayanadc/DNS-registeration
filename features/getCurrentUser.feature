@@ -36,3 +36,21 @@ Scenario: fetch current user info successfully
           "message" : "Unauthorized"
         }
        """
+
+  @42
+  Scenario: fetch current user with empty domains
+    Given fake user token with "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFkBohA223"
+    And user "azar@example.com" with password "valid_password" has already registered
+    And authenticate "azar@example.com"
+    When open "/v1/users/current" form
+    And submit the page
+    Then receive ok
+    And receive JSON response:
+        """
+        {
+          "id" : 1,
+          "email" : "azar@example.com",
+          "api_token": "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFkBohA223",
+          "domains" : []
+        }
+       """

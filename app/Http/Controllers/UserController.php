@@ -16,9 +16,13 @@ class UserController extends Controller
         $user = Auth::user();
         if ($user) {
             $recordDomainIdsForUser = $user->records()->get()->pluck('domain_id');
-            $user = $user->with(['domains' => function ($query) use ($recordDomainIdsForUser){
-                $query->where('id', $recordDomainIdsForUser);
-            }])->first();
+            if(empty($recordDomainIdsForUser->toArray())){
+                $user = $user->with('domains')->first();
+            }else{
+                $user = $user->with(['domains' => function ($query) use ($recordDomainIdsForUser){
+                    $query->where('id', $recordDomainIdsForUser);
+                }])->first();
+            }
             return response()->json($user->toArray(),200);
         }
     }

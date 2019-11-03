@@ -17,13 +17,14 @@ class UserController extends Controller
         if ($user) {
             $recordDomainIdsForUser = $user->records()->get()->pluck('domain_id');
             if(empty($recordDomainIdsForUser->toArray())){
-                $user = $user->with('domains')->first();
+                $user = $user->toArray();
+                $user['domains'] = [];
             }else{
                 $user = $user->with(['domains' => function ($query) use ($recordDomainIdsForUser){
                     $query->where('id', $recordDomainIdsForUser);
-                }])->first();
+                }])->first()->toArray();
             }
-            return response()->json($user->toArray(),200);
+            return response()->json($user,200);
         }
     }
     public function login(Request $request)

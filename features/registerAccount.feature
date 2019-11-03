@@ -52,9 +52,9 @@ Feature: Register New User Account
           {
         "errors": [
             {
-             "title": "The email has already been taken.",
+            "title": "The email has already been taken.",
             "source": {
-            "parameter": "email"
+              "parameter": "email"
             }
             },
            {

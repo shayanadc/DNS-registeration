@@ -33,7 +33,7 @@ Feature: Delete Record Type
     Then receive not ok
     And receive JSON response:
       """
-        {
-         "message" : "Unauthorized"
-        }
+          {
+            "errors": [{"title": "Unauthorized"} ]
+         }
       """

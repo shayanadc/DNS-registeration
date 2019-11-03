@@ -32,9 +32,9 @@ Scenario: fetch current user info successfully
     Then receive not ok
     And receive JSON response:
         """
-        {
-          "message" : "Unauthorized"
-        }
+         {
+            "errors": [{"title": "Unauthorized"} ]
+         }
        """
 
   @42

@@ -35,7 +35,7 @@ class UserController extends Controller
             }
         }
         return response()->json([
-               'errors' => ['title' => 'Email or password is incorrect']
+               'errors' => [['title' => 'Email or password is incorrect']]
         ], 400);
     }
 

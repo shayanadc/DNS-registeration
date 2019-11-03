@@ -27,7 +27,7 @@ class UserController extends Controller
         $user = User::where('email', $request->input('email'))->first();
         if ($user) {
             if (Hash::check($request->input('password'), $user->password)) {
-                return response()->json(['token' => 'QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk'],200);
+                return response()->json(['api_token' => $user->api_token],200);
             }
         }
         return response()->json([

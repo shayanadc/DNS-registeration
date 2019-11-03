@@ -23,6 +23,6 @@ Feature: Login
     And receive JSON response:
     """
         {
-          "token": "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk"
+          "api_token": "QeEgasgWAFdsbGFSUOq48QC0AJK0XlVqYxCIPFk"
         }
     """

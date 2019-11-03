@@ -90,6 +90,7 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 <script>
+
     $("#register-target").submit(function (event) {
         event.preventDefault();
         var email = $("#email-register").val();
@@ -109,10 +110,17 @@
             contentType: "application/json",
             headers: { "Access-Control-Allow-Origin": "*"}
         }).done(function (data) {
-            console.log(data)
+            $( ".alert" ).addClass( "alert-success" );
+            $( ".alert" ).addClass( "show" );
+            $(".alert").append("<strong> Congratulations!! </strong> You Are Registered");
         }).fail(function (data) {
-            console.log(data)
+            $( ".alert" ).addClass( "alert-warning" );
+            $( ".alert" ).addClass( "show" );
+            $(".alert").append("<strong> Attention!! </strong>" + data.responseJSON.errors[0].title);
         });
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');}, 3000
+        );
     })
 
 
@@ -135,11 +143,13 @@
             $.cookie("api_token", data.api_token);
             window.location.href = '/profile'
         }).fail(function (data) {
-            console.log(data.responseJSON)
             $( ".alert" ).addClass( "alert-warning" );
             $( ".alert" ).addClass( "show" );
-            $(".alert").append("<strong> Attention!! </strong>" + data.responseJSON);
+            $(".alert").append("<strong> Attention!! </strong>" + data.responseJSON.errors[0].title);
         });
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');}, 3000
+        );
     })
 
 </script>

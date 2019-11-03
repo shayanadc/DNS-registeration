@@ -33,12 +33,16 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $casts = [
-    ];
+    protected $casts = [];
 
 
     public function domains()
     {
         return $this->hasMany('App\Domain');
+    }
+
+    public function records()
+    {
+        return $this->hasManyThrough('App\RecordType', 'App\Domain');
     }
 }

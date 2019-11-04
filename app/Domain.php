@@ -29,4 +29,12 @@ class Domain extends Model
     {
         $this->update(['approved' => true]);
     }
+    public function scopeWaiting($query)
+    {
+        return $query->where('approved',false);
+    }
+    public function scopeApproved($query)
+    {
+        return $query->where('approved',true);
+    }
 }

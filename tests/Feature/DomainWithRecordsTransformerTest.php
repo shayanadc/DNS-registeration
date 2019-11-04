@@ -102,7 +102,7 @@ class DomainWithRecordsTransformerTest extends TestCase
 
         $stub->method('digRequest', 'exampleA.com')->willReturn($dns_dmoainA);
         $stub->method('digRequest', 'exampleB.com')->willReturn($dns_dmoainB);
-//        $domainTransformer = new DomainDigTransformer($domainA);
-        $this->assertEquals(1, 1);
+        $domainTransformer = new DomainDigTransformer($domainA);
+        $this->assertEquals(1, $domainTransformer->process());
     }
 }

@@ -19,6 +19,9 @@ class DomainDigTransformer
 
     public function process(){
         $dig = new DigRequest('exampleA.com');
-        dd($dig->digRequest());
+        $dnsFact = new DNSDigRequestFactory($dig->digRequest(), $this->domainWithRecords->records);
+        if($dnsFact->process()){
+            return $this->domainWithRecords;
+        }
     }
 }

@@ -12,20 +12,19 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function getAuthenticatedUser(){
-        $user = Auth::user();
-        if ($user) {
-            $recordDomainIdsForUser = $user->records()->get()->pluck('domain_id');
-            if(empty($recordDomainIdsForUser->toArray())){
-                $user = $user->toArray();
-                $user['domains'] = [];
-            }else{
-                $user = $user->with(['domains' => function ($query) use ($recordDomainIdsForUser){
-                    $query->where('id', $recordDomainIdsForUser);
-                }])->first()->toArray();
-            }
+
+    public function getAuthenticatedUser(Request $request){
+        try{
+            $user = $request->user();
+
             return response()->json($user,200);
+
+        }catch (\Exception $exception){
+            return response()->json([
+                'errors' => [['title' => 'Whoops! Your Account Not Found!']]
+            ], 400);
         }
+
     }
     public function login(Request $request)
     {
@@ -36,7 +35,7 @@ class UserController extends Controller
             }
         }
         return response()->json([
-               'errors' => ['title' => 'Email or password is incorrect']
+               'errors' => [['title' => 'Email or password is incorrect']]
         ], 400);
     }
 

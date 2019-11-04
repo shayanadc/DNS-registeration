@@ -14,7 +14,7 @@ class DomainController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user()->domains()->with('records')->where('user_id', $request->user()->id)->get();
+        return $request->user()->domains()->with('records')->get();
     }
 
     /**
@@ -44,7 +44,7 @@ class DomainController extends Controller
             $domain = Domain::find($domain->id);
             return response()->json(['name' => $domain->name, 'user_id' => $domain->user_id, 'approved' => $domain->approved], 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            return response()->json(['errors' => [['title' => 'Whooops!']]], 400);
         }
 
     }

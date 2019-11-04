@@ -19,7 +19,7 @@ class DNSLookUp
         $this->dnsRecord = $dnsRecords;
     }
 
-    public function verify(){
+    public function isMatch(){
         $verify = false;
         foreach ($this->recordArray as $recordItem) {
             foreach ($this->dnsRecord as $dnsItem){

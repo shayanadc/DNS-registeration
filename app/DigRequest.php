@@ -11,7 +11,11 @@ namespace App;
 
 class DigRequest
 {
+    public $domain;
+    public function __construct($domain){
+        $this->domain = $domain;
+    }
     public function digRequest(){
-        return 'zooo';
+        return 'foo';
     }
 }

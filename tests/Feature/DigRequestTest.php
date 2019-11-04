@@ -17,7 +17,7 @@ class DigRequestTest extends TestCase
     {
         $TXTDigRequest = [
             [
-                "host" => "sadra.me",
+                "host" => "example.com",
                 "class" => "IN",
                 "ttl" => 473,
                 "type" => "TXT",
@@ -27,17 +27,17 @@ class DigRequestTest extends TestCase
                 ],
             ],
             [
-                "host" => "sadra.me",
+                "host" => "example.com",
                 "class" => "IN",
                 "ttl" => 473,
                 "type" => "TXT",
-                "txt" => "SHAYAN",
+                "txt" => "FINDTHIS",
                 "entries" => [
                     "SHAYAN",
                 ],
             ],
             [
-                "host" => "sadra.me",
+                "host" => "example.com",
                 "class" => "IN",
                 "ttl" => 473,
                 "type" => "TXT",
@@ -64,7 +64,7 @@ class DigRequestTest extends TestCase
             ], [
                 "id" => 3,
                 "domain_id" => "2",
-                "content" => "SHAYAN"
+                "content" => "FINDTHIS"
             ]
         ];
         $dnsFactory = new DNSDigRequestFactory($stub->digRequest(), $recordsType);

@@ -64,6 +64,6 @@ class DNSFinderTest extends TestCase
         ];
 
         $dns_look_up = new DNSLookUp($recordsType, $TXTDigRequest);
-        $this->assertFalse($dns_look_up->verify());
+        $this->assertFalse($dns_look_up->isMatch());
     }
 }

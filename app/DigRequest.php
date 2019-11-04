@@ -12,10 +12,12 @@ namespace App;
 class DigRequest
 {
     public $domain;
-    public function __construct($domain){
+    public $type;
+    public function __construct($domain, $type = DNS_TXT){
         $this->domain = $domain;
+        $this->type = $type;
     }
-    public function digRequest(){
-        return 'foo';
+    public function resolveDomain(){
+        return dns_get_record($this->domain, DNS_TXT);
     }
 }

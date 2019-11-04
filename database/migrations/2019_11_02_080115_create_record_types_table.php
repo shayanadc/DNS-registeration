@@ -19,6 +19,8 @@ class CreateRecordTypesTable extends Migration
             $table->string('content')->index();
             $table->timestamps();
 
+            $table->unique(['content', 'domain_id']);
+
             $table->foreign('domain_id')
                 ->references('id')->on('domains')
                 ->onDelete('cascade');

@@ -11,7 +11,7 @@ use Tests\TestCase;
 class DigRequestTest extends TestCase
 {
     /**
-     *
+     * @test
      */
     public function it_returns_true_if_find_dns_record_for_domain()
     {
@@ -68,6 +68,6 @@ class DigRequestTest extends TestCase
             ]
         ];
         $dnsFactory = new DNSDigRequestFactory($stub->digRequest(), $recordsType);
-        $this->assertTrue(false);
+        $this->assertTrue($dnsFactory->process());
     }
 }

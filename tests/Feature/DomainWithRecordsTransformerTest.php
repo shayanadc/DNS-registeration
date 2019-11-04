@@ -11,7 +11,7 @@ use Tests\TestCase;
 class DomainWithRecordsTransformerTest extends TestCase
 {
     /**
-     * @test
+     * 
      */
     public function it_returns_ids_of_verified_domain()
     {

@@ -20,13 +20,13 @@ class DNSLookUp
     }
 
     public function verify(){
-        $x = false;
+        $verify = false;
         foreach ($this->recordArray as $recordItem) {
             foreach ($this->dnsRecord as $dnsItem){
-                if($recordItem['content'] == $dnsItem['txt']) $x = true;
+                if($recordItem['content'] == $dnsItem['txt']) $verify = true;
             }
         }
-        return $x;
+        return $verify;
     }
 
 }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Domain;
+use App\Http\Requests\RecordTypeRequest;
 use App\RecordType;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class RecordTypeController extends Controller
 {
@@ -41,10 +44,13 @@ class RecordTypeController extends Controller
             $recordType = new RecordType();
             $config = $recordType->createNewRecord($request->toArray());
             return response()->json(['content' => $config->content, 'domain_id' => $config->domain_id], 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+        } catch (QueryException $e) {
+            return response()->json(['errors' => [['title' => 'Your Content For This Domain Is Not Unique.']]], 400);
         }
-    }
+        catch (\Exception $e) {
+            return response()->json(['errors' => [['title' => $e->getMessage()]]], 400);
+        }
+}
 
     /**
      * Display the specified resource.

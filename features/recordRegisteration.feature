@@ -49,3 +49,26 @@ Feature: Register New DNS Record
             "errors": [{"title": "Unauthorized"} ]
          }
       """
+
+  @22
+  Scenario: Register Duplicate Record Type For Domain
+    Given user "babak@example.com" with password "valid_password" has already registered
+    And authenticate "babak@example.com"
+    And a domain with name "example.com"
+    And a record with content "text1"
+    When open "/v1/records" form
+    And fill the form with:
+      """
+        {
+          "domain_id": 1,
+          "content" : "text1"
+        }
+      """
+    And submit the form
+    Then receive not ok
+    And receive JSON response:
+      """
+         {
+            "errors": [{"title": "Your Content For This Domain Is Not Unique."} ]
+         }
+      """

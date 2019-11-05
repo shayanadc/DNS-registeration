@@ -31,7 +31,7 @@ class ApprovedDomainUseCase
         if($lookUp->isMatch()) {
             $this->recordType->domain->toApproved();
         }else{
-            throw new \Exception('aga');
+            throw new \Exception('Dns Is Not Match To TXT Record Type');
         }
 
     }

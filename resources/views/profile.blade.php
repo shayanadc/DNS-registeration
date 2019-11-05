@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
 
     <title>Hello, world!</title>
 </head>
@@ -35,7 +36,7 @@
                     Create New Domain
                 </div>
                 <div class="card-body">
-                    <form class="form-inline" id="domain-register-target">
+                    <form class="form-inline" id="domain-register-target" target="/profile">
                         <div class="form-group mx-md-5 mb-2">
                             <label for="inputPassword2" class="sr-only">Domain</label>
                             <input type="text" class="form-control" id="domain-name" placeholder="domain name">
@@ -57,7 +58,7 @@
                     Create New TXT Record
                 </div>
                 <div class="card-body">
-                    <form class="form-inline" id="txt-record-target">
+                    <form class="form-inline" id="txt-record-target" target="/profile">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <label class="input-group-text" for="inputGroupSelect01">Domains</label>
@@ -83,6 +84,7 @@
                     <th scope="col">Domain Name</th>
                     <th scope="col">Content</th>
                     <th scope="col">Approved</th>
+                    <th scope="col">DELETE</th>
                 </tr>
                 </thead>
                 <tbody id="tbody-rec">
@@ -160,25 +162,42 @@
             }).done(function (data) {
                 $.each(data, function (index, item) {
                 $('#tbody-rec').append(`
-                    <tr>
-                    <th scope="row">${index}</th>
+                    <tr id=${item.id}>
+                    <th scope="row">${index++}</th>
                         <td>${item.domain.name}</td>
                         <td>${item.content}</td>
                         <td>${item.domain.approved}</td>
+                        <td><a class="delete-record" href="#" id=${item.id}><i class="fa fa-trash"></a></i>
                    </tr>
                         `)
+                });
+
+                $('a.delete-record').on("click", function () {
+                    var recordId = $(this).attr('id')
+                    $.ajax({
+                        url: `http://127.0.0.1:8000/v1/records/${recordId}`,
+                        type: 'DELETE',
+                        contentType: "application/json",
+                        headers: {
+                            "Access-Control-Allow-Origin": "*",
+                            "Authorization" : 'Bearer ' + $.cookie("api_token"),
+                            "Accept" : "application/json"
+                        }
+                    }).done(function (data) {
+                        $('tr#' + recordId).hide()
+                    });
                 });
             });
         } else {
             window.location.href = '/'
         }
-    });
+        });
+
 
     $("#logout").submit(function (event) {
         $.removeCookie("api_token");
     });
     $("#txt-record-target").submit(function (event) {
-        event.preventDefault();
         var record_content = $("#record-content").val();
         var domain_id = $("#domain-select-ids").val();
 
@@ -204,7 +223,7 @@
 
 
     $("#domain-register-target").submit(function (event) {
-        event.preventDefault();
+        // event.preventDefault();
         var domain_name = $("#domain-name").val();
 
         $.ajax({

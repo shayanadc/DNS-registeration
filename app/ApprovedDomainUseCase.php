@@ -9,10 +9,6 @@
 namespace App;
 
 
-use App\Jobs\DomainResolverJob;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
-
 class ApprovedDomainUseCase
 {
     public $recordType;
@@ -27,7 +23,7 @@ class ApprovedDomainUseCase
     {
         $digRequest = new DigRequest($this->domainName);
         $digAnswer = $digRequest->resolveDomain();
-        $lookUp = new DNSLookUp($this->recordType,$digAnswer);
+        $lookUp = new DNSLookUp($this->recordType, $digAnswer);
         if($lookUp->isMatch()) {
             $this->recordType->domain->toApproved();
         }else{

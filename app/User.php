@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -44,5 +45,14 @@ class User extends Authenticatable
     public function records()
     {
         return $this->hasManyThrough('App\RecordType', 'App\Domain');
+    }
+    public function verifyPasswordOrThrowException($password){
+        if (!Hash::check($password, $this->password)) {
+            throw new \Exception('Email or password is incorrect');
+        }
+    }
+    public function scopeIsExist($query,$email)
+    {
+        return $query->where('email', $email);
     }
 }

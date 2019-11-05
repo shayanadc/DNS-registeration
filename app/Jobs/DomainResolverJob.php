@@ -33,6 +33,7 @@ class DomainResolverJob implements ShouldQueue
 
     public $domain;
     public $recordType;
+
     /**
      * Create a new job instance.
      *
@@ -40,8 +41,8 @@ class DomainResolverJob implements ShouldQueue
      */
     public function __construct(string $domain, RecordType $recordType)
     {
-       $this->domain = $domain;
-       $this->recordType = $recordType;
+        $this->domain = $domain;
+        $this->recordType = $recordType;
     }
 
     /**
@@ -51,18 +52,20 @@ class DomainResolverJob implements ShouldQueue
      */
     public function handle()
     {
-     $domainResolver = new ApprovedDomainUseCase($this->domain, $this->recordType);
-     try{
-         $domainResolver->process();
-         $this->delete();
-     }catch (\Exception $exception){
-         throw new \Exception('DONT Do This JOB' . $this->recordType->id);
-     }
+        try {
+            $domainResolver = new ApprovedDomainUseCase($this->domain, $this->recordType);
+            $domainResolver->process();
+            $this->delete();
+        } catch (\Exception $exception) {
+            throw new \Exception('DONT Do This JOB' . $this->recordType->id);
+        }
     }
+
     public function retryUntil()
     {
         return now()->addDay(2);
     }
+
     public function failed()
     {
         Log::info('FAILED JOB' . $this->domain);

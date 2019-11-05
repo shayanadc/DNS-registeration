@@ -29,6 +29,7 @@ Feature: Register New DNS Record
          "content": "hash"
         }
       """
+    And dispatch an event from class "DomainResolverJob"
 
   @21
   Scenario: Does not Allow To Domains

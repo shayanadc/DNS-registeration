@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Domain;
 use App\Http\Requests\RecordTypeRequest;
+use App\Jobs\DomainResolverJob;
 use App\RecordType;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -43,6 +45,7 @@ class RecordTypeController extends Controller
             Domain::findOrFail($request->input('domain_id'));
             $recordType = new RecordType();
             $config = $recordType->createNewRecord($request->toArray());
+            dispatch(new DomainResolverJob($config->fresh()->domain->name, $config->fresh()))->delay(Carbon::now()->addMinutes(1));
             return response()->json(['content' => $config->content, 'domain_id' => $config->domain_id], 200);
         } catch (QueryException $e) {
             return response()->json(['errors' => [['title' => 'Your Content For This Domain Is Not Unique.']]], 400);

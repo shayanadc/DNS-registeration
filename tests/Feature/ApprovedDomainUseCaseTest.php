@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\ApprovedDomainUseCase;
 use App\Domain;
+use App\Jobs\DomainResolverJob;
 use App\RecordType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,27 +19,14 @@ class ApprovedDomainUseCaseTest extends TestCase
      */
     public function it_verify_data()
     {
-        factory(RecordType::class)->create([
+        //Todo: Mock Domain Request
+        $record = factory(RecordType::class)->create([
             'domain_id' => factory(Domain::class)->create(['name' => 'sadra.me'])->id,
             'content' => 'SHAYAN'
             ]);
+        $record = $record->fresh();
+        dispatch(new DomainResolverJob($record->domain->name, $record->fresh()));
 
-        factory(RecordType::class)->create([
-            'domain_id' => factory(Domain::class)->create(['name' => 'example.me'])->id,
-            'content' => 'SHAYAN'
-            ]);
-
-        factory(RecordType::class)->create([
-        'domain_id' => factory(Domain::class)->create(['name' => 'sadra.me'])->id,
-        'content' => 'AFADG'
-    ]);
-        factory(RecordType::class)->create([
-            'domain_id' => factory(Domain::class)->create(['name' => 'sadra.me'])->id,
-            'content' => 'AFADG'
-        ]);
-
-        $useCase = new ApprovedDomainUseCase();
-        $useCase->process();
         $domain = Domain::where('approved', true)->get();
         $this->assertCount(1,$domain);
     }

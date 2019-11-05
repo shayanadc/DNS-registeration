@@ -47,21 +47,12 @@ class DNSFinderTest extends TestCase
             ],
         ];
 
-        $recordsType = [
+        $recordsType =
             [
                 "id" => 1,
                 "domain_id" => "1",
                 "content" => "text1"
-            ], [
-                "id" => 2,
-                "domain_id" => "2",
-                "content" => "text2",
-            ], [
-                "id" => 3,
-                "domain_id" => "2",
-                "content" => "text3"
-            ]
-        ];
+            ];
 
         $dns_look_up = new DNSLookUp($recordsType, $TXTDigRequest);
         $this->assertFalse($dns_look_up->isMatch());

@@ -11,20 +11,18 @@ namespace App;
 
 class DNSLookUp
 {
-    public $recordArray;
-    public $dnsRecord;
-    public function __construct($recordTypes, $dnsRecords)
+    public $record;
+    public $dnsRecords;
+    public function __construct($recordType, $dnsRecords)
     {
-        $this->recordArray = $recordTypes;
-        $this->dnsRecord = $dnsRecords;
+        $this->record = $recordType;
+        $this->dnsRecords = $dnsRecords;
     }
 
     public function isMatch(){
         $verify = false;
-        foreach ($this->recordArray as $recordItem) {
-            foreach ($this->dnsRecord as $dnsItem){
-                if($recordItem['content'] == $dnsItem['txt']) $verify = true;
-            }
+        foreach ($this->dnsRecords as $dnsItem) {
+                if($this->record['content'] == $dnsItem['txt']) $verify = true;
         }
         return $verify;
     }

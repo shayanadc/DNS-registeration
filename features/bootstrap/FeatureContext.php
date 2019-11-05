@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Queue;
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
@@ -37,6 +37,7 @@ class FeatureContext extends \Tests\TestCase implements Context
         putenv("QUEUE_CONNECTION=sync");
         putenv("SESSION_DRIVER=array");
         parent::setUp();
+        Queue::fake();
     }
 
     /**
@@ -152,5 +153,13 @@ class FeatureContext extends \Tests\TestCase implements Context
             'password' => \Illuminate\Support\Facades\Hash::make($password),
             'api_token' => \App\Token::generate()
         ]);
+    }
+
+    /**
+     * @Then dispatch an event from class :arg1
+     */
+    public function dispatchAnEventFromClass($arg1)
+    {
+        Queue::assertPushed("App\Jobs\\". $arg1, 1);
     }
 }

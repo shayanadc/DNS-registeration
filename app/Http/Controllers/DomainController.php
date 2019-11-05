@@ -40,8 +40,7 @@ class DomainController extends Controller
             $reqArr = $request->except(['approved']);
             $reqArr['user_id'] = $request->user()->id;
             $domain = $domainObj->createNewDomain($reqArr);
-            //Todo: how to return all without reload
-            $domain = Domain::find($domain->id);
+            $domain = $domain->fresh();
             return response()->json(['name' => $domain->name, 'user_id' => $domain->user_id, 'approved' => $domain->approved], 200);
         } catch (\Exception $e) {
             return response()->json(['errors' => [['title' => 'Whooops!']]], 400);

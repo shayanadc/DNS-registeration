@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain;
 use App\Http\Requests\UserRegisterRequest;
 use App\Token;
 use App\User;
+use App\UserLoginUseCase;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -28,15 +28,10 @@ class UserController extends Controller
     }
     public function login(Request $request)
     {
-        $user = User::where('email', $request->input('email'))->first();
-        if ($user) {
-            if (Hash::check($request->input('password'), $user->password)) {
-                return response()->json(['api_token' => $user->api_token],200);
-            }
-        }
-        return response()->json([
-               'errors' => [['title' => 'Email or password is incorrect']]
-        ], 400);
+        $attributes['email'] = $request->input('email');
+        $attributes['password'] = $request->input('password');
+        $uc = resolve(UserLoginUseCase::class);
+        return $uc($attributes);
     }
 
     /**

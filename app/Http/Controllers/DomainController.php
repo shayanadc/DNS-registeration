@@ -41,7 +41,7 @@ class DomainController extends Controller
             $reqArr['user_id'] = $request->user()->id;
             $domain = $domainObj->createNewDomain($reqArr);
             $domain = $domain->fresh();
-            return response()->json(['name' => $domain->name, 'user_id' => $domain->user_id, 'approved' => $domain->approved], 200);
+            return response()->json(['id' => $domain->id,'name' => $domain->name, 'user_id' => $domain->user_id, 'approved' => $domain->approved], 200);
         } catch (\Exception $e) {
             return response()->json(['errors' => [['title' => 'Whooops!']]], 400);
         }

@@ -14,11 +14,11 @@
 
 * config your Database ENV and set Queue in database:
 ```
-db-host=db
-db-username=YOUR DB USERNAME
-db-password=YOUR DB Password
-MYSQL_ROOT_PASSWORD = YOUR DB ROOT PASSWORD
-queue connection = database
+DB_HOST=db
+DB_USERNAME=YOUR DB USERNAME
+DB_PASSWORD=YOUR DB Password
+MYSQL_ROOT_PASSWORD= YOUR DB ROOT PASSWORD
+QUEUE_CONNECTION= database
 ```
 * start all of the containers:
 ```docker-compose up -d```

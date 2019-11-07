@@ -98,7 +98,7 @@
 
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/v1/users',
+            url: 'http://127.0.0.1/v1/users',
             type: 'POST',
             data: JSON.stringify({
                 "email": email,
@@ -129,7 +129,7 @@
         var password = $("#password-login").val();
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/v1/login',
+            url: 'http://127.0.0.1/v1/login',
             type: 'POST',
             data: JSON.stringify({
                 "email": email,

@@ -118,7 +118,7 @@
     $(document).ready(function () {
         if ($.cookie("api_token")) {
             $.ajax({
-                url: 'http://127.0.0.1:8000/v1/users/current',
+                url: 'http://127.0.0.1/v1/users/current',
                 type: 'GET',
                 contentType: "application/json",
                 headers: {
@@ -133,7 +133,7 @@
             });
 
             $.ajax({
-                url: 'http://127.0.0.1:8000/v1/domains',
+                url: 'http://127.0.0.1/v1/domains',
                 type: 'GET',
                 contentType: "application/json",
                 headers: {
@@ -151,7 +151,7 @@
             });
 
             $.ajax({
-                url: 'http://127.0.0.1:8000/v1/records',
+                url: 'http://127.0.0.1/v1/records',
                 type: 'GET',
                 contentType: "application/json",
                 headers: {
@@ -175,7 +175,7 @@
                 $('a.delete-record').on("click", function () {
                     var recordId = $(this).attr('id')
                     $.ajax({
-                        url: `http://127.0.0.1:8000/v1/records/${recordId}`,
+                        url: `http://127.0.0.1/v1/records/${recordId}`,
                         type: 'DELETE',
                         contentType: "application/json",
                         headers: {
@@ -202,7 +202,7 @@
         var domain_id = $("#domain-select-ids").val();
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/v1/records',
+            url: 'http://127.0.0.1/v1/records',
             type: 'POST',
             data: JSON.stringify({
                 "content": record_content,
@@ -227,7 +227,7 @@
         var domain_name = $("#domain-name").val();
 
         $.ajax({
-            url: 'http://127.0.0.1:8000/v1/domains',
+            url: 'http://127.0.0.1/v1/domains',
             type: 'POST',
             data: JSON.stringify({
                 "name": domain_name

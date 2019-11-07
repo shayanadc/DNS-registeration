@@ -21,11 +21,40 @@ class ApprovedDomainUseCaseTest extends TestCase
     {
         //Todo: Mock Domain Request
         $record = factory(RecordType::class)->create([
-            'domain_id' => factory(Domain::class)->create(['name' => 'sadra.me'])->id,
-            'content' => 'SHAYAN'
+            'domain_id' => factory(Domain::class)->create(['name' => 'example.com'])->id,
+            'content' => 'LookForThisTXTRecord'
             ]);
         $record = $record->fresh();
-        dispatch(new DomainResolverJob($record->domain->name, $record->fresh()));
+        $ucMock = $this->getMockBuilder(ApprovedDomainUseCase::class)
+            ->setConstructorArgs(['example.me', $record])
+            ->setMethods(array('sendDigRequest'))
+            ->getMock();
+        $DNS = [
+            [
+                "host" => "example.com",
+                "class" => "IN",
+                "ttl" => 473,
+                "type" => "TXT",
+                "txt" => "v=spf1 a mx include:spf.migadu.com ~all",
+                "entries" => [
+                    "v=spf1 a mx include:spf.migadu.com ~all",
+                ],
+            ],
+            [
+                "host" => "example.com",
+                "class" => "IN",
+                "ttl" => 473,
+                "type" => "TXT",
+                "txt" => "LookForThisTXTRecord",
+                "entries" => [
+                    "LookForThisTXTRecord",
+                ],
+            ]
+        ];
+        $ucMock->expects($this->once())
+            ->method('sendDigRequest')
+            ->will($this->returnValue($DNS));
+        $ucMock->process();
 
         $domain = Domain::where('approved', true)->get();
         $this->assertCount(1,$domain);

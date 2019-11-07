@@ -25,6 +25,7 @@ Feature: Register New Domain
     And receive JSON response:
       """
         {
+        "id" : 1,
          "name": "example.com",
          "user_id" : 1,
          "approved" : false

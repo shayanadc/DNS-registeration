@@ -25,6 +25,7 @@ Feature: Register New DNS Record
     And receive JSON response:
       """
         {
+        "id" :1,
          "domain_id" : 1,
          "content": "hash"
         }

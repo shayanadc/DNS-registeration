@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\UserRegisterRequest;
 use App\Token;
 use App\User;
@@ -26,7 +27,7 @@ class UserController extends Controller
         }
 
     }
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $attributes['email'] = $request->input('email');
         $attributes['password'] = $request->input('password');

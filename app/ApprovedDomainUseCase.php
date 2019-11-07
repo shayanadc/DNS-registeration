@@ -21,14 +21,16 @@ class ApprovedDomainUseCase
 
     public function process()
     {
-        $digRequest = new DigRequest($this->domainName);
-        $digAnswer = $digRequest->resolveDomain();
-        $lookUp = new DNSLookUp($this->recordType, $digAnswer);
+        $lookUp = new DNSLookUp($this->recordType, $this->sendDigRequest());
         if($lookUp->isMatch()) {
             $this->recordType->domain->toApproved();
         }else{
             throw new \Exception('Dns Is Not Match To TXT Record Type');
         }
 
+    }
+    public function sendDigRequest(){
+        $digRequest = new DigRequest($this->domainName);
+        return $digRequest->resolveDomain();
     }
 }

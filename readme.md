@@ -1,8 +1,8 @@
 # DNS-registeration
-in our website, you can register your domain name and get some services but before that, we should verify your domain name.
-every user can register n domain and for each domain can register n TXT records.
-5 min after DNS record registered our service will lookup your DNS to find your TXT record.
-if any of them find in your domain would be approved.
+#### in our website, you can register your domain name and get some services but before that, we should verify your domain name.
+#### every user can register n domain and for each domain can register n TXT records.
+#### 5 min after DNS record registered our service will lookup your DNS to find your TXT record.
+#### if any of them find in your domain would be approved.
 --------
 # How to Run With Docker
 * after clone project from github, set permissions on the project directory:

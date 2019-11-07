@@ -39,7 +39,7 @@
                     <form class="form-inline" id="domain-register-target" target="/profile">
                         <div class="form-group mx-md-5 mb-2">
                             <label for="inputPassword2" class="sr-only">Domain</label>
-                            <input type="text" class="form-control" id="domain-name" placeholder="domain name">
+                            <input type="text" class="form-control" id="domain-name" placeholder="domain name" required>
                         </div>
                         <button type="submit" class="btn btn-primary mb-2">save +</button>
 

@@ -59,4 +59,10 @@ class ApprovedDomainUseCaseTest extends TestCase
         $domain = Domain::where('approved', true)->get();
         $this->assertCount(1,$domain);
     }
+    /**
+     * @test
+     */
+    public function test_failed(){
+        $this->assertFalse(true);
+    }
 }
